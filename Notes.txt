@@ -1,0 +1,2 @@
+lazy loading- it helps in= loads the components only when the user
+clicks on them. Otherwise all components will be loaded causing optimization issues.

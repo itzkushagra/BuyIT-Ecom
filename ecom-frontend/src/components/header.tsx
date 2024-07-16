@@ -1,6 +1,13 @@
-import { useState } from "react";
-import { FaSearch, FaShoppingBag, FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import {
+  FaSearch,
+  FaShoppingBag,
+  FaSignInAlt,
+  FaUser,
+  FaSignOutAlt,
+} from "react-icons/fa";
+import { useState } from "react";
+
 
 const user = {_id:"asd", role:"admin"};
 
@@ -8,13 +15,17 @@ const Header = () => {
 
 const [isOpen, setIsOpen] = useState<boolean>(false);
 
+const logoutManager = ()=>{
+    setIsOpen(false);
+}
+
   return (
-    <nav>
-        <Link to={"/"}>Home</Link>
-        <Link to={"/search"}>
+    <nav className="header">
+        <Link onClick={()=> setIsOpen(false)} to={"/"}>Home</Link>
+        <Link onClick={()=> setIsOpen(false)} to={"/search"}>
             <FaSearch/>
         </Link>
-        <Link to={"/cart"}>
+        <Link onClick={()=> setIsOpen(false)} to={"/cart"}>
             <FaShoppingBag/>
         </Link>
 
@@ -28,11 +39,11 @@ const [isOpen, setIsOpen] = useState<boolean>(false);
                 <div>
                     {
                         user.role==="admin" && (
-                            <Link to={"/admin/dashboard"}>Admin</Link>   
+                            <Link onClick={()=> setIsOpen(false)} to={"/admin/dashboard"}>Admin</Link>   
                         )
                     }
-                    <Link to={"/orders"}>Orders</Link>
-                    <button>
+                    <Link onClick={()=> setIsOpen(false)} to={"/orders"}>Orders</Link>
+                    <button onClick={logoutManager}>
                         <FaSignOutAlt/>
                     </button>
                 </div>
