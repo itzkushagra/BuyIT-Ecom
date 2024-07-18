@@ -1,0 +1,16 @@
+.cart{
+    padding: 2rem 4rem;
+    @include flex(row,space-between,center,4rem);
+    height: calc(100vh - 4rem);
+    > main{
+        width:70%;
+        > h1{
+            @include heading(2px);
+            text-align: center;
+        }
+        overflow-y: auto;
+        &::-webkit-scrollbar{
+            display: none;
+        }
+    }
+}
