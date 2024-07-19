@@ -49,8 +49,9 @@
   .header {
     @include flex(row, flex-end, stretch, 1.2rem);
     padding: 1rem;
+    background-color: $color2;
     a {
-        color: $color2;
+        color: $color1;
         letter-spacing: 1px;
         font-size: 1.2rem;
         &:hover{
@@ -63,6 +64,7 @@
       border: none;
       font-size: 1.1rem;
       cursor: pointer;
+      color: $color1;
       background-color: transparent;
       &:hover{
         color: $color3;
