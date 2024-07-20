@@ -1,0 +1,40 @@
+import { useState } from "react";
+import { FcGoogle } from "react-icons/fc";
+
+
+const Login = () => {
+    const [gender, setGender]= useState("");
+    const [date,setDate]=useState("");
+
+  return (
+    <div className="loginpage">
+      
+        <main>
+            <h1 className="heading">Login</h1>
+            <div>
+                <label>Gender</label>
+                <select value={gender} onChange={(e)=> setGender(e.target.value)}>
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Select Gender</option>
+                </select>
+            </div>
+            <div>
+                <label>Date of Birth</label>
+                <input value={date} onChange={(e)=> setDate(e.target.value)}/>
+            </div>
+
+            <div>
+                <p>Existing User?</p>
+                <button>
+                    <FcGoogle/> <span>Sign in using Google</span>
+                </button>
+            </div>
+
+        </main>
+
+    </div>
+  )
+}
+
+export default Login;
