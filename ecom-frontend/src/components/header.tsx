@@ -9,7 +9,7 @@ import {
 import { useState } from "react";
 
 
-const user = {_id:"asd", role:"admin"};
+const user = {_id:"asd", role:"dasd"};
 
 const Header = () => {
 

@@ -38,7 +38,9 @@
   @import "_home.scss";
   @import "_cart.scss";
   @import "_shipping.scss";
+  @import "_search.scss";
   @import "_login.scss";
+  @import "_orders.scss";
   
 
 
@@ -48,6 +50,19 @@
   @import "admin-styles/chart";
   @import "admin-styles/dashboardapp";
   @import "admin-styles/mediaquery";
+
+
+  .contianer{
+    max-width: 1367px;
+    width: 100%;
+    margin: auto;
+    overflow: auto;
+    >h1{
+      @include heading;
+      margin: 1rem 0;
+      text-align: left;
+    }
+  }
 
   .header {
     @include flex(row, flex-end, stretch, 1.2rem);
@@ -79,17 +94,24 @@
       border-radius: 5px;
       padding: 10px;
       width: 100px;
+      background-color: $color3;
       position: absolute;
       left: calc(100% - 100px);
       top: 8%;
       > div{
         @include flex(column, flex-start, center, 00.25rem);
+        
       }
 
     }
 
   }
 
+  .heading{
+    @include heading;
+    margin: 1rem 0;
+    text-align: center;
+  }
   
 
 
