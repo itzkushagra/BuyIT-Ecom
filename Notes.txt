@@ -14,3 +14,7 @@ Script Commands:
   "start": "node dist/app.js",   (this initiates the project)
   "build": "tsc",                (this builds the project) 
   "watch": "tsc -w"              (this makes changes simultaneously in dist\app.js when changes                                       are made in app.ts)
+
+In the terminal of app.ts run "npm run watch", then it will show watching for file changes.
+After that open another terminal parallely and type run dev
+| Now whatever changes you will make in app.ts will be reflected in the app.js |
