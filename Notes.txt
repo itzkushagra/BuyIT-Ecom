@@ -19,3 +19,7 @@ In the terminal of app.ts run "npm run watch", then it will show watching for fi
 "dev": "nodemon dist/app.js" (add it in scripts)
 After that open another terminal parallely and type run dev
 | Now whatever changes you will make in app.ts will be reflected in the app.js |
+
+- Validator -
+npm i validator
+npm i --save-dev @types/validator
