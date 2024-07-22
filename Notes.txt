@@ -1,2 +1,11 @@
 lazy loading- it helps in= loads the components only when the user
 clicks on them. Otherwise all components will be loaded causing optimization issues.
+
+Backend:
+  npm init
+  npm i -g typescript
+  tsc --init
+  npm i express dotenv mongoose
+  npm i --save-dev @types/express @types/node typ
+  npm i --save-dev nodemon
+  tsc (makes the dis folder containing app.js)
