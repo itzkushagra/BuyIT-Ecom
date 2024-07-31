@@ -23,3 +23,8 @@ After that open another terminal parallely and type run dev
 - Validator -
 npm i validator
 npm i --save-dev @types/validator
+
+- Multer -
+npm i multer
+npm i --save-dev @types/multer
+
