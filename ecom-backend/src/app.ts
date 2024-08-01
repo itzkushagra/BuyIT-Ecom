@@ -1,12 +1,10 @@
 import express from 'express';
-
-
-//importing routes
-
-import userRoutes from "./routes/user.js";
 import { connectDB } from './utils/features.js';
 import { errorMiddleware } from './middlewares/error.js';
+//importing routes
+import userRoutes from "./routes/user.js";
 
+import productRoutes from "./routes/products.js";
 
 const port = 3000;
 
@@ -21,6 +19,8 @@ app.get("/",(req,res)=>{
 
 //use of routes
 app.use("/api/v1/user", userRoutes);
+
+app.use("/api/v1/products", productRoutes);
 
 //use to get error in the beginning, when next is called in user.ts\controller the next function will execute this
 app.use(errorMiddleware);
