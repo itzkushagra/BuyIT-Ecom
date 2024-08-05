@@ -10,7 +10,6 @@ const schema = new mongoose.Schema({
     },
     price: {
         type: Number,
-        enum: ["Male", "Female", "Other"],
         require: [true, "Gender Missing"]
     },
     stock: {
