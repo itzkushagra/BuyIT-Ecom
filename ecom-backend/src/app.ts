@@ -22,6 +22,7 @@ app.use("/api/v1/user", userRoutes);
 
 app.use("/api/v1/product", productRoutes);
 
+app.use("/uploads", express.static("uploads"));
 //use to get error in the beginning, when next is called in user.ts\controller the next function will execute this
 app.use(errorMiddleware);
 

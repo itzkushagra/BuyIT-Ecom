@@ -2,12 +2,19 @@ import { Request, Response } from "express";
 import { TryCatch } from "../middlewares/error.js";
 import { NewProductRequestBody } from "../types/types.js";
 import { Product } from "../models/products.js";
+import ErrorHandler from "../utils/utilityclass.js";
 
 
 export const newProduct = TryCatch(
     async(req:Request<{},{},NewProductRequestBody>,res:Response,next)=>{
         const{name,price,stock,category} = req.body;
         const photo = req.file;
+
+        if(!photo) return next(new ErrorHandler("PLease add the photo",400));
+
+        if(!name||!price||!stock||!category)
+            return next (new ErrorHandler("Fields are empty",400));
+         
 
     await Product.create({
         name,
