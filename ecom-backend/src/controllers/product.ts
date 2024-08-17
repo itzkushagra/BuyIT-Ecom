@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { TryCatch } from "../middlewares/error.js";
-import { NewProductRequestBody } from "../types/types.js";
+import { NewProductRequestBody, SearchRequestQuery } from "../types/types.js";
 import { Product } from "../models/products.js";
 import ErrorHandler from "../utils/utilityclass.js";
 import { rm } from "fs";
@@ -130,6 +130,37 @@ export const deleteProduct = TryCatch(async(req,res,next)=>{
     return res.status(200).json({
         success: true,
         message:"Product Deleted Successfully",
+    });
+    }
+);
+
+
+export const searchAllProducts = TryCatch(
+    async(req: Request<{},{},{},SearchRequestQuery>,res,next)=>{
+
+    const {search,sort,category,price}=req.query;
+
+    const page = Number(req.query.page) || 1;
+
+    const limit = Number(process.env.PRODUCT_PER_PAGE) || 8;
+    const skip = (page-1)*limit;
+
+    const baseQuery = {
+        price:{
+            $lte: Number(price),    //lte- less than equal to
+        },
+        category,
+    }
+
+    if(search) baseQuery.name = {
+        $regex:search,
+        $options: "i",
+    };
+    const product = await Product.find(); 
+
+    return res.status(201).json({
+        success: true,
+        product,
     });
     }
 );

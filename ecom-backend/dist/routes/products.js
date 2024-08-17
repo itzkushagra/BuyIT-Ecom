@@ -10,10 +10,10 @@ app.get("/latest", getLatestProduct);
 //get all the categories
 app.get("/categories", getCategories);
 //get all the products
-app.get("/admin-products", getAdminProducts);
+app.get("/admin-products", adminOnly, getAdminProducts);
 app
     .route("/:id")
     .get(getSingleProduct)
-    .put(singleUpload, updateProduct)
+    .put(adminOnly, singleUpload, updateProduct)
     .delete(deleteProduct);
 export default app;

@@ -1,13 +1,16 @@
 import express from "express";
 import { deleteUser, getAllUsers, newUser } from "../controllers/user.js";
 import { adminOnly } from "../middlewares/auth.js";
-import { deleteProduct, getAdminProducts, getCategories, getLatestProduct, getSingleProduct, newProduct, updateProduct } from "../controllers/product.js";
+import { deleteProduct, getAdminProducts, getCategories, getLatestProduct, getSingleProduct, newProduct, searchAllProducts, updateProduct } from "../controllers/product.js";
 import { singleUpload } from "../middlewares/multer.js";
 
 
 const app = express.Router();
 // create new product 
 app.post("/new",adminOnly, singleUpload, newProduct);
+
+//get all product
+app.get("/latest",searchAllProducts);
 
 //get last 5 new products
 app.get("/latest",getLatestProduct);
@@ -16,12 +19,12 @@ app.get("/latest",getLatestProduct);
 app.get("/categories", getCategories);
 
 //get all the products
-app.get("/admin-products", getAdminProducts);
-
+app.get("/admin-products", adminOnly, getAdminProducts);
+ 
 app
 .route("/:id")
 .get(getSingleProduct)
-.put(singleUpload, updateProduct)
+.put(adminOnly, singleUpload, updateProduct)
 .delete(deleteProduct);
 
 export default app;
