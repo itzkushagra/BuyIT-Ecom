@@ -18,6 +18,10 @@ app.get("/categories", getCategories);
 //get all the products
 app.get("/admin-products", getAdminProducts);
 
-app.route("/:id").get(getSingleProduct).put(updateProduct).delete(deleteProduct);
+app
+.route("/:id")
+.get(getSingleProduct)
+.put(singleUpload, updateProduct)
+.delete(deleteProduct);
 
 export default app;
