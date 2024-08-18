@@ -112,14 +112,14 @@ export const searchAllProducts = TryCatch(async (req, res, next) => {
         };
     if (category)
         baseQuery.category = category;
-    const productsPromise = Product.find()
+    const productsPromise = Product.find(baseQuery)
         .sort(sort && { price: sort === "asc" ? 1 : -1 })
         .limit(limit) //limit of products to be displayed per page
         .skip(skip); //when we go to next page products of previous page will be skipped for loading
     //using the following to run both of these parallely otherwise they would have ran 1 after the other
     const [product, filteredProductOnly] = await Promise.all([
         productsPromise,
-        Product.find(baseQuery)
+        Product.find(baseQuery),
     ]);
     const totalPage = Math.ceil(filteredProductOnly.length / limit); //if products are 51 and limit is 10 we would need atleast 6 pages, we'll get it by using ceil that converts 5.1 to 6
     return res.status(201).json({
