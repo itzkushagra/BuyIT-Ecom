@@ -36,6 +36,6 @@ export interface BaseQuery{
         $regex: string,
         $options: string,
     }
-    price?: {$lte: number;};
+    price?: {$lte: number};
     category?: string;
 }

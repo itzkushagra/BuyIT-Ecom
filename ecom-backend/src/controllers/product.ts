@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { TryCatch } from "../middlewares/error.js";
-import { NewProductRequestBody, SearchRequestQuery } from "../types/types.js";
+import { BaseQuery, NewProductRequestBody, SearchRequestQuery } from "../types/types.js";
 import { Product } from "../models/products.js";
 import ErrorHandler from "../utils/utilityclass.js";
 import { rm } from "fs";
@@ -145,22 +145,39 @@ export const searchAllProducts = TryCatch(
     const limit = Number(process.env.PRODUCT_PER_PAGE) || 8;
     const skip = (page-1)*limit;
 
-    const baseQuery = {
-        price:{
-            $lte: Number(price),    //lte- less than equal to
-        },
-        category,
+    const baseQuery:BaseQuery = {
+     
     }
 
     if(search) baseQuery.name = {
         $regex:search,
         $options: "i",
     };
-    const product = await Product.find(); 
 
+    if(price) baseQuery.price={
+        $lte: Number(price),    //lte- less than equal to
+    };
+
+    if(category) baseQuery.category = category;
+
+    const productsPromise = Product.find()
+    .sort(sort && {price: sort === "asc" ? 1 : -1})
+    .limit(limit)  //limit of products to be displayed per page
+    .skip(skip); //when we go to next page products of previous page will be skipped for loading
+
+    //using the following to run both of these parallely otherwise they would have ran 1 after the other
+    const [product,filteredProductOnly] = await Promise.all([
+        productsPromise,
+        Product.find(baseQuery)
+    ])
+  
+
+    const totalPage = Math.ceil(filteredProductOnly.length/limit); //if products are 51 and limit is 10 we would need atleast 6 pages, we'll get it by using ceil that converts 5.1 to 6
+    
     return res.status(201).json({
         success: true,
         product,
+        totalPage,
     });
     }
 );

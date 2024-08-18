@@ -9,8 +9,8 @@ const app = express.Router();
 // create new product 
 app.post("/new",adminOnly, singleUpload, newProduct);
 
-//get all product
-app.get("/latest",searchAllProducts);
+//get all products with filter
+app.get("/all",searchAllProducts);
 
 //get last 5 new products
 app.get("/latest",getLatestProduct);
