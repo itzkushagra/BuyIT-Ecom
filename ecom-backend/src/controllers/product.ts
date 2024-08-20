@@ -4,6 +4,7 @@ import { BaseQuery, NewProductRequestBody, SearchRequestQuery } from "../types/t
 import { Product } from "../models/products.js";
 import ErrorHandler from "../utils/utilityclass.js";
 import { rm } from "fs";
+import { myCache } from "../app.js";
 
 
 export const newProduct = TryCatch(
@@ -39,10 +40,17 @@ export const newProduct = TryCatch(
     }
 );
 
-
+// revalidate on new ,update,delete product & new order
 export const getLatestProduct = TryCatch(async(req,res,next)=>{
 
-    const product = await Product.find({}).sort({createdAt: -1}).limit(5);
+    let product;
+    if(myCache.has("latest-product")) product = JSON.parse(myCache.get("") as string);
+    else{
+        product = await Product.find({}).sort({createdAt: -1}).limit(5);
+        myCache.set("latest-product",JSON.stringify(product)); 
+    }
+
+
 
     return res.status(201).json({
         success: true,
@@ -51,6 +59,7 @@ export const getLatestProduct = TryCatch(async(req,res,next)=>{
     }
 );
 
+// revalidate on new ,update,delete product & new order
 export const getCategories = TryCatch(async(req,res,next)=>{
 
     const categories =  await Product.distinct("category");

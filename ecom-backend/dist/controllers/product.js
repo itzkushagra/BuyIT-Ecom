@@ -2,6 +2,7 @@ import { TryCatch } from "../middlewares/error.js";
 import { Product } from "../models/products.js";
 import ErrorHandler from "../utils/utilityclass.js";
 import { rm } from "fs";
+import { myCache } from "../app.js";
 export const newProduct = TryCatch(async (req, res, next) => {
     const { name, price, stock, category } = req.body;
     const photo = req.file;
@@ -27,6 +28,7 @@ export const newProduct = TryCatch(async (req, res, next) => {
 });
 export const getLatestProduct = TryCatch(async (req, res, next) => {
     const product = await Product.find({}).sort({ createdAt: -1 }).limit(5);
+    myCache.set("latest-product", JSON.stringify(product));
     return res.status(201).json({
         success: true,
         product,
