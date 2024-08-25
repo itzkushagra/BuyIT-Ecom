@@ -5,6 +5,7 @@ import { Product } from "../models/products.js";
 import ErrorHandler from "../utils/utilityclass.js";
 import { rm } from "fs";
 import { myCache } from "../app.js";
+import { inValidateCache } from "../utils/features.js";
 
 
 
@@ -110,6 +111,8 @@ export const newProduct = TryCatch(
         photo: photo?.path,
     });
 
+    await inValidateCache({product: true});
+     
     return res.status(201).json({
         success: true,
         message: "Successfully Added",
@@ -140,6 +143,7 @@ export const updateProduct = TryCatch(async(req,res,next)=>{
         if(category) product.category=category;
 
         await product.save();
+        await inValidateCache({product: true});
 
     return res.status(200).json({
         success: true,
@@ -158,7 +162,7 @@ export const deleteProduct = TryCatch(async(req,res,next)=>{
     });
 
     await Product.deleteOne();
-
+    await inValidateCache({product: true});
 
     return res.status(200).json({
         success: true,
