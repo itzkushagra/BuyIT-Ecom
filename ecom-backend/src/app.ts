@@ -2,22 +2,30 @@ import express from 'express';
 import { connectDB } from './utils/features.js';
 import { errorMiddleware } from './middlewares/error.js';
 import NodeCache from 'node-cache';
+import {config} from "dotenv";
+import morgan from 'morgan';
 
 //importing routes
 import userRoutes from "./routes/user.js";
-
 import productRoutes from "./routes/products.js";
 import orderRoute from "./routes/orders.js";
 
 
-const port = 3000;
-
-connectDB();
+config({
+    path:"./.env",
+});
+ 
+const port = process.env.PORT || 3000;
+const mongoURI = process.env.MONGO_URI || "";
+connectDB(mongoURI);
 
 export const myCache = new NodeCache();
 
 const app = express();
 app.use(express.json());
+app.use(morgan("dev"));
+
+
 
 app.get("/",(req,res)=>{
     res.send("Working");
