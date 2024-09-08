@@ -24,8 +24,6 @@ export const newOrder = TryCatch(async(
             !user || 
             !subtotal ||
             !tax ||
-            !shippingCharges ||
-            !discount ||
             !total
         ) return next(new ErrorHandler("Please Enter All fields", 400));
 
@@ -52,15 +50,37 @@ export const myOrder = TryCatch(async(
     req, res, next)=>{
     
         const {id: user} = req.query;
+        const key = `my-orders-${user}`;
         let orders=[];
-        if(myCache.has("")) orders = JSON.parse(myCache.get("") as string);
+        if(myCache.has(key)) 
+            orders = JSON.parse(myCache.get(key) as string);
         else{
-            orders = await Order.find({user})
+            orders = await Order.find({user});
+            myCache.set(key,JSON.stringify(orders));
         }
 
-        return res.status(201).json({
+        return res.status(200).json({
             success: true,
-            message: "Order Placed Sucessfully",
+            orders,
         });
 });
 
+
+export const allOrder = TryCatch(async(
+    req, res, next)=>{
+    
+        const {id: user} = req.query;
+        const key = `all-orders`;
+        let orders=[];
+        if(myCache.has(key)) 
+            orders = JSON.parse(myCache.get(key) as string);
+        else{
+            orders = await Order.find().populate("user","name");
+            myCache.set(key,JSON.stringify(orders));
+        }
+
+        return res.status(200).json({
+            success: true,
+            orders,
+        });
+});

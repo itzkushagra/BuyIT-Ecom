@@ -1,7 +1,7 @@
 import express from "express";
 import { deleteUser, getAllUsers, getUser, newUser } from "../controllers/user.js";
 import { adminOnly } from "../middlewares/auth.js";
-import { myOrder, newOrder } from "../controllers/orders.js";
+import { allOrder, myOrder, newOrder } from "../controllers/orders.js";
 
 
 const app = express.Router();
@@ -10,5 +10,8 @@ const app = express.Router();
 app.post("/new", newOrder);
 
 app.get("/my",myOrder);
+
+app.get("/all",adminOnly, allOrder);
+
 
 export default app;
