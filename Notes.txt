@@ -28,3 +28,11 @@ npm i --save-dev @types/validator
 npm i multer
 npm i --save-dev @types/multer
 
+Various Queries:
+  - processOrder:
+    first we get the id using req.params and then we get the order associated
+    with that id using req. Upon recieving it we check if the order exists
+    if not we send a new error handler. If it does we use switch statement to 
+    change the status of order. Then we save and add invalidateCache
+
+    
