@@ -73,14 +73,14 @@ export const newProduct = TryCatch(async (req, res, next) => {
         });
         return next(new ErrorHandler("Fields are empty", 400));
     }
-    await Product.create({
+    const product = await Product.create({
         name,
         price,
         stock,
         category: category.toLowerCase(),
         photo: photo?.path,
     });
-    await inValidateCache({ product: true });
+    await inValidateCache({ product: true, productId: String(product._id) });
     return res.status(201).json({
         success: true,
         message: "Successfully Added",
@@ -122,7 +122,7 @@ export const deleteProduct = TryCatch(async (req, res, next) => {
         console.log("Product Photo Deleted");
     });
     await Product.deleteOne();
-    await inValidateCache({ product: true });
+    await inValidateCache({ product: true, productId: String(product._id) });
     return res.status(200).json({
         success: true,
         message: "Product Deleted Successfully",

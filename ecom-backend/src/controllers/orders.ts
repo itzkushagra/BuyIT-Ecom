@@ -27,7 +27,7 @@ export const newOrder = TryCatch(async(
             !total
         ) return next(new ErrorHandler("Please Enter All fields", 400));
 
-        await Order.create({
+        const order = await Order.create({
             shippingInfo, 
             orderItems, 
             user, 
@@ -38,7 +38,16 @@ export const newOrder = TryCatch(async(
             total,
         });
         await reduceStock(orderItems);
-        await inValidateCache({product: true, order: true, admin: true});
+        await inValidateCache({
+            product:false,
+            order:true,
+            admin:true, 
+            userId: String(user),
+            productId: order.orderItems.map(i=> String(i.productId)),
+        });
+
+
+
 
         return res.status(201).json({
             success: true,
@@ -124,11 +133,40 @@ export const processOrder = TryCatch(async(
         }
 
         await order.save();
-
-        await inValidateCache({product:false,order:true,admin:true});
+        
+        await inValidateCache({
+            product:false,
+            order:true,
+            admin:true, 
+            userId: order.user,
+            orderId: String(order._id),
+        });
 
         return res.status(200).json({
             success: true,
             message:"Order Processed Successfully",
+        });
+});
+
+export const deleteOrder = TryCatch(async(
+    req,res,next)=>{
+
+        const {id} = req.params;
+        const order = await Order.findById(id);
+        if(!order) return next(new ErrorHandler("Order not found",404));
+
+        await order.deleteOne();
+        await inValidateCache({
+            product:false,
+            order:true,
+            admin:true, 
+            userId: order.user,
+            orderId: String(order._id),
+            productId: order.orderItems.map(i=> String(i.productId)),
+        });
+        
+        return res.status(200).json({
+            success: true,
+            message:"Order Deleted Successfully",
         });
 });

@@ -103,7 +103,7 @@ export const newProduct = TryCatch(
             
          
 
-    await Product.create({
+    const product = await Product.create({
         name,
         price,
         stock,
@@ -111,7 +111,7 @@ export const newProduct = TryCatch(
         photo: photo?.path,
     });
 
-    await inValidateCache({product: true});
+    await inValidateCache({product: true, productId: String(product._id)});
      
     return res.status(201).json({
         success: true,
@@ -162,7 +162,7 @@ export const deleteProduct = TryCatch(async(req,res,next)=>{
     });
 
     await Product.deleteOne();
-    await inValidateCache({product: true});
+    await inValidateCache({product: true, productId: String(product._id)});
 
     return res.status(200).json({
         success: true,
