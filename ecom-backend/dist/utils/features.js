@@ -15,11 +15,11 @@ export const inValidateCache = async ({ product, order, admin, userId, orderId, 
             "all-products",
             `product-${productId}`,
         ];
+        console.log(typeof productId);
         if (typeof productId === "string")
             productKeys.push(`product-${productId}`);
         if (typeof productId === "object") {
             productId.forEach((i) => productKeys.push(`product-${i}`));
-            console.log("lol");
         }
         myCache.del(productKeys);
     }

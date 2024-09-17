@@ -46,9 +46,6 @@ export const newOrder = TryCatch(async(
             productId: order.orderItems.map(i=> String(i.productId)),
         });
 
-
-
-
         return res.status(201).json({
             success: true,
             message: "Order Placed Sucessfully",
