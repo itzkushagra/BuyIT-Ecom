@@ -9,7 +9,8 @@ import morgan from 'morgan';
 import userRoutes from "./routes/user.js";
 import productRoutes from "./routes/products.js";
 import orderRoute from "./routes/orders.js";
-import { newCoupon } from './controllers/payment.js';
+
+import paymentRoute from "./routes/payment.js";
 
 
 config({
@@ -38,7 +39,7 @@ app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/product", productRoutes);
 app.use("/api/v1/order", orderRoute);
 
-app.post("/coupon/new", newCoupon);
+app.use("/api/v1/payment", paymentRoute);
 
 
 app.use("/uploads", express.static("uploads"));
