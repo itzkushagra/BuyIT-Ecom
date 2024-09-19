@@ -11,3 +11,22 @@ export const newCoupon = TryCatch(async (req, res, next) => {
         message: `Coupon ${code} created successfully`,
     });
 });
+export const applyDiscount = TryCatch(async (req, res, next) => {
+    const { coupon } = req.query;
+    const discount = await Coupon.findOne({ code: coupon });
+    if (!discount)
+        return next(new ErrorHandler("Coupon is Invalid", 400));
+    return res.status(200).json({
+        success: true,
+        discout: discount.amount,
+    });
+});
+export const allCoupon = TryCatch(async (req, res, next) => {
+    const coupon = await Coupon.find({});
+    if (!coupon)
+        return next(new ErrorHandler("Coupon is Invalid", 400));
+    return res.status(200).json({
+        success: true,
+        coupon,
+    });
+});
