@@ -11,6 +11,7 @@ import productRoutes from "./routes/products.js";
 import orderRoute from "./routes/orders.js";
 
 import paymentRoute from "./routes/payment.js";
+import dashboardRoute from "./routes/admin-stats.js";
 
 
 config({
@@ -40,6 +41,8 @@ app.use("/api/v1/product", productRoutes);
 app.use("/api/v1/order", orderRoute);
 
 app.use("/api/v1/payment", paymentRoute);
+app.use("/api/v1/dashboard", dashboardRoute);
+
 
 
 app.use("/uploads", express.static("uploads"));
