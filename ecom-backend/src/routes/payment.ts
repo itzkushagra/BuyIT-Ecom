@@ -1,16 +1,21 @@
 import express from "express";
-import { allCoupon, applyDiscount, newCoupon } from "../controllers/payment.js";
+import { allCoupon, applyDiscount, deleteCoupon, newCoupon } from "../controllers/payment.js";
+import { adminOnly } from "../middlewares/auth.js";
 
 
 const app = express.Router();
 
 //route -/api/v1/payment/coupon/new
-app.post("/coupon/new", newCoupon);
+app.post("/coupon/new", adminOnly, newCoupon);
 
 //route -/api/v1/payment/discount
-app.post("/discount", applyDiscount);
+app.get("/discount", applyDiscount);
 
 //route -/api/v1/payment/coupon/all
-app.post("/coupon/all", allCoupon);
+app.get("/coupon/all", adminOnly, allCoupon);
+
+//route -/api/v1/payment/coupon/:id
+app.delete("/coupon/:id", adminOnly, deleteCoupon);
+
 
 export default app;
