@@ -3,7 +3,7 @@ import { TryCatch } from "../middlewares/error.js";
 import { Order } from "../models/order.js";
 import { Product } from "../models/products.js";
 import { User } from "../models/user.js";
-import { calculatePercentage } from "../utils/features.js";
+import { calculatePercentage, getInventories } from "../utils/features.js";
 export const getDashboardStats = TryCatch(async (req, res, next) => {
     let stats = {};
     if (myCache.has("admin-stat"))
@@ -100,14 +100,7 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
                 orderMonthlyRevenue[6 - monthDifference - 1] += order.total;
             }
         });
-        const categoriesCountPromise = getCategories.map(category => Product.countDocuments({ category }));
-        const categoriesCount = await Promise.all(categoriesCountPromise);
-        const categoryCount = [];
-        getCategories.forEach((category, i) => {
-            categoryCount.push({
-                [category]: Math.round((categoriesCount[i] / productCount) * 100),
-            });
-        });
+        const categoryCount = await getInventories({ categories, productCount });
         const userRatio = {
             male: userCount - femaleUserCount,
             female: femaleUserCount,

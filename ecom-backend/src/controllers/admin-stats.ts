@@ -3,7 +3,7 @@ import { TryCatch } from "../middlewares/error.js";
 import { Order } from "../models/order.js";
 import { Product } from "../models/products.js";
 import { User } from "../models/user.js";
-import { calculatePercentage } from "../utils/features.js";
+import { calculatePercentage, getInventories } from "../utils/features.js";
 
 export const getDashboardStats = TryCatch(async(req,res,next)=>{
      let stats = {};
@@ -138,15 +138,11 @@ export const getDashboardStats = TryCatch(async(req,res,next)=>{
               orderMonthlyRevenue[6-monthDifference-1]+=order.total;
             }
           })
-          const categoriesCountPromise = getCategories.map(category=>  Product.countDocuments({category}));
-          const categoriesCount = await Promise.all(categoriesCountPromise);
-          const categoryCount: Record<string,number>[]=[];
+        
 
-          getCategories.forEach((category:any,i)=>{
-            categoryCount.push({
-              [category]:Math.round((categoriesCount[i]/productCount)*100 ),
-            })
-          })
+          const categoryCount: Record<string,number>[]=await getInventories({categories,productCount});
+
+        
           const userRatio = {
             male: userCount- femaleUserCount,
             female: femaleUserCount,
@@ -206,7 +202,7 @@ export const getPieChart = TryCatch(async(req,res,next)=>{
     return res.status(200).json({
       success: true,
       charts,
-  })
+  });
 });
 
 export const getBarChart = TryCatch(async()=>{});
