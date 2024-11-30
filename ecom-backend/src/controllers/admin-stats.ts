@@ -140,8 +140,11 @@ export const getDashboardStats = TryCatch(async(req,res,next)=>{
           })
         
 
-          const categoryCount: Record<string,number>[]=await getInventories({categories,productCount});
-
+          const categoryCount: Record<string,number>[] =  await 
+          getInventories({
+            categories,
+            productsCount,
+          });
         
           const userRatio = {
             male: userCount- femaleUserCount,

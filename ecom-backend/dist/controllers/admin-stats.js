@@ -100,7 +100,10 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
                 orderMonthlyRevenue[6 - monthDifference - 1] += order.total;
             }
         });
-        const categoryCount = await getInventories({ categories, productCount });
+        const categoryCount = await getInventories({
+            categories,
+            productsCount,
+        });
         const userRatio = {
             male: userCount - femaleUserCount,
             female: femaleUserCount,
